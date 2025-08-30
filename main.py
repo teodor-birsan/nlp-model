@@ -13,12 +13,15 @@ dataset['preprocessed_text'] = [text.lower() for text in dataset['text']]
 # Removing hashtags
 dataset['preprocessed_text'] = [re.sub(pattern='#', repl="", string=text) for text in dataset['preprocessed_text']]
 
-# Removing stopwords
-en_stopwords = stopwords.words('english')
-dataset['preprocessed_text'] = [" ".join([word for word in text.split() if word not in en_stopwords]) for text in dataset['preprocessed_text']]
+# Remove links 
+dataset['preprocessed_text'] = [re.sub(pattern=r"https?://\S+", repl="", string=text) for text in dataset['preprocessed_text']]
 
 # Removing punctuation
 dataset['preprocessed_text'] = [re.sub(pattern=r"[^\w\s]", repl=" ", string=text) for text in dataset["preprocessed_text"]]
+
+# Removing stopwords
+en_stopwords = stopwords.words('english')
+dataset['preprocessed_text'] = [" ".join([word for word in text.split() if word not in en_stopwords]) for text in dataset['preprocessed_text']]
 
 # Tokenization
 dataset['preprocessed_text'] = [word_tokenize(text) for text in dataset['preprocessed_text']]
